@@ -168,7 +168,7 @@ npm run lint     # Lint the codebase
 
 ## Deployment
 
-A public deployment was previously provided at:
+A public deployment is available at:
 
 - https://aegis-insurance.pages.dev/
 
@@ -180,5 +180,6 @@ Current repository baseline includes pre-existing lint and build issues unrelate
 
 - `npm run lint` reports existing TypeScript/ESLint violations in multiple app/component files.
 - `npm run build` may fail in restricted/offline environments because `next/font` attempts to fetch Inter from Google Fonts (`fonts.googleapis.com`).
+  - Workarounds for restricted environments include allowing outbound access to `fonts.googleapis.com`, switching to a local/self-hosted font, or replacing `next/font/google` usage in `src/app/layout.tsx` with a local font import.
 
 These are existing project conditions and not introduced by this documentation change.
