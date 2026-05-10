@@ -193,6 +193,8 @@ Current repository baseline includes pre-existing lint and build issues unrelate
     local/self-hosted font in `src/app/layout.tsx` by removing the
     `next/font/google` `Inter` import/initializer and replacing it with a local
     font strategy, which removes external font fetches at build time.
+    A common approach is using `next/font/local` with font files stored under
+    `public/fonts`.
   - Alternative workarounds include allowing outbound access to `fonts.googleapis.com`.
 
 These are existing project conditions and not introduced by this documentation change.
