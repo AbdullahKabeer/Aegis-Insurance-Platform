@@ -189,7 +189,10 @@ Current repository baseline includes pre-existing lint and build issues unrelate
 
 - `npm run lint` reports existing TypeScript/ESLint violations in multiple app/component files.
 - `npm run build` may fail in restricted/offline environments because `next/font` attempts to fetch Inter from Google Fonts (`fonts.googleapis.com`).
-  - Recommended approach for most restricted environments: switch to a local/self-hosted font in `src/app/layout.tsx` by removing the `next/font/google` `Inter` import/initializer and replacing it with a local font strategy, which removes external font fetches at build time.
+  - Recommended approach for most restricted environments: switch to a
+    local/self-hosted font in `src/app/layout.tsx` by removing the
+    `next/font/google` `Inter` import/initializer and replacing it with a local
+    font strategy, which removes external font fetches at build time.
   - Alternative workarounds include allowing outbound access to `fonts.googleapis.com`.
 
 These are existing project conditions and not introduced by this documentation change.
