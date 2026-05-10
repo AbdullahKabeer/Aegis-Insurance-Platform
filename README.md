@@ -140,7 +140,7 @@ There is also a shared TypeScript model layer in `src/lib/types.ts` that represe
 
 ### Prerequisites
 
-- Node.js 18.18+ (Node 20 LTS recommended)
+- Node.js ≥18.18 (20 LTS recommended)
 - npm 9+
 
 ### Setup
@@ -191,7 +191,7 @@ Current repository baseline includes pre-existing lint and build issues unrelate
 - `npm run build` may fail in restricted/offline environments because `next/font` attempts to fetch Inter from Google Fonts (`fonts.googleapis.com`).
   - Recommended: in `src/app/layout.tsx`, replace `next/font/google` (`Inter`)
     with a local/self-hosted font strategy (for example, `next/font/local` with
-    font files in `src/fonts` and relative imports).
+    repo-hosted font files and relative imports).
   - Alternative: allow outbound access to `fonts.googleapis.com`.
 
 These are existing project conditions and not introduced by this documentation change.
