@@ -174,12 +174,22 @@ A public deployment is available at:
 
 If deploying this repository yourself, standard Next.js deployment targets (Vercel, Cloudflare-compatible setups, etc.) apply.
 
+Example (Vercel):
+
+1. Import the GitHub repository into Vercel.
+2. Keep default framework detection as **Next.js**.
+3. Use install/build commands:
+   - Install: `npm install`
+   - Build: `npm run build`
+4. Deploy (no required environment variables for the current mock-data demo).
+
 ## Known Baseline Issues
 
 Current repository baseline includes pre-existing lint and build issues unrelated to this README update:
 
 - `npm run lint` reports existing TypeScript/ESLint violations in multiple app/component files.
 - `npm run build` may fail in restricted/offline environments because `next/font` attempts to fetch Inter from Google Fonts (`fonts.googleapis.com`).
-  - Workarounds for restricted environments include allowing outbound access to `fonts.googleapis.com`, switching to a local/self-hosted font, or replacing `next/font/google` usage in `src/app/layout.tsx` with a local font import.
+  - Recommended approach for most restricted environments: switch to a local/self-hosted font in `src/app/layout.tsx` to remove external font fetches at build time.
+  - Alternative workarounds include allowing outbound access to `fonts.googleapis.com`.
 
 These are existing project conditions and not introduced by this documentation change.
