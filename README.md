@@ -1,85 +1,197 @@
-# Next.js Project with v0 Template
+# Aegis Insurance Platform
 
-This is a Next.js project with TypeScript, Tailwind CSS, and shadcn/ui components, designed to integrate with v0 templates. The project includes a comprehensive insurance agency and agent management system with features for commission tracking, vault rules, debt management, and vesting schedules.
+Aegis is a Next.js application that demonstrates a commission-protection workflow for insurance agencies and agents. It models how commissions are split into **safe** and **vaulted** balances, how vaults **vest over time**, and how **chargebacks/advances** create debt that can be repaid via garnishment.
+
+This repository is currently a front-end demo powered by local mock JSON data.
+
+## Table of Contents
+
+- [What This Project Does](#what-this-project-does)
+- [Core Concepts](#core-concepts)
+- [Key Features](#key-features)
+- [Tech Stack](#tech-stack)
+- [Application Routes](#application-routes)
+- [Project Structure](#project-structure)
+- [Data Model and Mock Data](#data-model-and-mock-data)
+- [Local Development](#local-development)
+- [Available Scripts](#available-scripts)
+- [Deployment](#deployment)
+- [Known Baseline Issues](#known-baseline-issues)
+
+## What This Project Does
+
+The app provides two dashboard experiences:
+
+1. **Agency view** for owners/managers to monitor aggregate risk and configure operations.
+2. **Agent view** for individual producers to track available funds, vaulting, vesting, and debt.
+
+It is designed as an interactive product demo with a realistic information architecture and business flow.
+
+## Core Concepts
+
+- **Safe balance**: funds immediately available to spend.
+- **Vaulted balance**: withheld funds that protect against future chargebacks.
+- **Vesting**: gradual release of vaulted funds over time.
+- **Debt**: obligations caused by chargebacks or advances.
+- **Garnishment**: automatic repayment of debt from future commissions.
+
+## Key Features
+
+### Landing Experience
+
+- Marketing-style homepage at `/` with feature highlights and navigation to demos.
+
+### Agency Dashboard
+
+- Portfolio-level metrics for vaulted, safe, and debt balances.
+- Agent-level table and detail views.
+- Commission trend and performance visualizations.
+- Real-time simulation/risk components.
+- Dedicated pages for:
+  - debt management
+  - vault rule configuration
+  - vesting management
+
+### Agent Dashboard
+
+- Personal financial overview cards (safe, vaulted, debt).
+- Debt alerts and debt history view.
+- Commission and vault breakdown charts.
+- Book-of-business display.
+- Interactive vault visualizer.
+- Recent commissions and vesting-linked vault list.
 
 ## Tech Stack
 
-- **Next.js 15.5** with App Router
-- **TypeScript** for type safety
-- **Tailwind CSS** for styling
-- **shadcn/ui** components with Radix UI primitives
-- **React Hook Form** with Zod validation
-- **Recharts** for data visualization
-- **Lucide React** icons
+- **Framework**: Next.js 15.5 (App Router)
+- **Language**: TypeScript
+- **UI**: React 18, Tailwind CSS, shadcn/ui, Radix UI primitives
+- **Forms/Validation**: React Hook Form + Zod
+- **Charts**: Recharts
+- **Icons**: Lucide React
+- **Linting**: ESLint
 
-## Features
+## Application Routes
 
-The v0 template includes:
+### Public
 
-### Agency Dashboard
-- Agency metrics and performance tracking
-- Commission logging and management
-- Agent management and vault assignments
-- Debt overview and chargeback processing
+- `/` — Landing page
 
-### Agent Dashboard
-- Balance cards showing current financial status
-- Book of business overview
-- Recent commissions tracking
-- Debt alerts and management
+### Agency
 
-### Vault Management
-- Vault rules configuration
-- Vesting schedule processing
-- Automated debt calculations
+- `/agency` — Agency command center
+- `/agency/agents/[id]` — Agent detail/performance page
+- `/agency/debts` — Debt management
+- `/agency/vault-rules` — Vault rule management
+- `/agency/vesting` — Upcoming vestings
 
-## Live Deployment Link
-https://aegis-insurance.pages.dev/
+### Agent
 
-## Getting Started
+- `/agent` — Agent dashboard (demo agent)
+- `/agent/debts` — Agent debt management
 
-1. **Install dependencies:**
+## Project Structure
+
+```text
+src/
+├── app/
+│   ├── page.tsx                    # Landing page
+│   ├── agency/                     # Agency dashboard routes
+│   │   ├── page.tsx
+│   │   ├── agents/[id]/page.tsx
+│   │   ├── debts/page.tsx
+│   │   ├── vault-rules/page.tsx
+│   │   └── vesting/page.tsx
+│   ├── agent/                      # Agent dashboard routes
+│   │   ├── page.tsx
+│   │   └── debts/page.tsx
+│   └── layout.tsx                  # Global layout/providers
+├── components/
+│   ├── agency/                     # Agency-focused UI/features
+│   ├── agent/                      # Agent-focused UI/features
+│   └── ui/                         # Reusable shadcn/ui primitives
+├── data/                           # Mock domain data (JSON)
+│   ├── agents.json
+│   ├── commissions.json
+│   ├── debts.json
+│   ├── vault-rules.json
+│   └── vesting-schedule.json
+├── hooks/
+└── lib/
+    ├── types.ts
+    └── utils.ts
+```
+
+## Data Model and Mock Data
+
+The UI is driven by local JSON data under `src/data/`.
+
+Primary datasets:
+
+- `agents.json`: profile/status and balance/risk metadata per agent
+- `commissions.json`: gross/safe/vaulted values, policy metadata, status, dates
+- `debts.json`: active and historical debt records (chargebacks, advances)
+- `vault-rules.json`: split percentages and vesting configuration
+- `vesting-schedule.json`: pending/completed vesting events
+
+There is also a shared TypeScript model layer in `src/lib/types.ts` that represents the intended domain entities.
+
+## Local Development
+
+### Prerequisites
+
+- Node.js ≥18.18 (20 LTS recommended)
+- npm 9+
+
+### Setup
+
 ```bash
 npm install
 ```
 
-2. **Run the development server:**
+### Run in development
+
 ```bash
 npm run dev
 ```
 
-3. **Open your browser:**
-Navigate to [http://localhost:3000](http://localhost:3000) to see the application.
+Then open [http://localhost:3000](http://localhost:3000).
 
-## Project Structure
+## Available Scripts
 
-```
-src/
-├── app/                 # Next.js App Router pages
-│   ├── agency/         # Agency-specific pages
-│   ├── agent/          # Agent-specific pages
-│   └── globals.css     # Global styles
-├── components/         # React components  
-│   ├── agency/         # Agency dashboard components
-│   ├── agent/          # Agent dashboard components
-│   └── ui/             # Reusable UI components (shadcn/ui)
-├── lib/                # Utility functions and types
-└── data/               # Mock data files
+```bash
+npm run dev      # Start dev server
+npm run build    # Production build
+npm run start    # Start production server (after build)
+npm run lint     # Lint the codebase
 ```
 
-## Development
+## Deployment
 
-- **Build:** `npm run build`
-- **Start production:** `npm start`
-- **Lint:** `npm run lint`
+A public deployment is available at:
 
-## Customization
+- https://aegis-insurance.pages.dev/
 
-The project uses shadcn/ui components which can be customized via:
-- `src/app/globals.css` for global styles
-- `tailwind.config.js` for Tailwind configuration
-- `components.json` for shadcn/ui configuration
+If deploying this repository yourself, standard Next.js deployment targets (Vercel, Cloudflare-compatible setups, etc.) apply.
 
-## v0 Template Integration
+Example (Vercel):
 
-This project was initialized with a v0 template that provides a complete insurance agency management system. The template includes pre-built components, mock data, and routing structure for both agency and agent dashboards.
+1. Import the GitHub repository into Vercel.
+2. Keep default framework detection as **Next.js**.
+3. Use install/build commands:
+   - Install: `npm install`
+   - Build: `npm run build`
+4. Deploy (no required environment variables for the current mock-data demo).
+
+## Known Baseline Issues
+
+Current repository baseline includes pre-existing lint and build issues unrelated to this README update:
+
+- `npm run lint` reports existing TypeScript/ESLint violations in multiple app/component files.
+- `npm run build` may fail in restricted/offline environments because `next/font` attempts to fetch Inter from Google Fonts (`fonts.googleapis.com`).
+  - Recommended: in `src/app/layout.tsx`, replace `next/font/google` (`Inter`)
+    with a local/self-hosted font strategy (for example, `next/font/local` with
+    repo-hosted font files and relative imports).
+  - Alternative: allow outbound access to `fonts.googleapis.com`.
+
+These are existing project conditions and not introduced by this documentation change.
